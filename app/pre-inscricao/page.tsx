@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { ComponentesRepository } from '@/lib/respositories/preInscricao.repository'
 import { toast } from 'sonner'
 
-
 const TEMPORADA_ATUAL_ID = 'e6780310-32a1-434e-bd09-49189e8fabab'
 
 function calcularIdade(dataNascimento: string) {
@@ -44,8 +43,6 @@ export default function Page() {
     form.telefone.trim() !== '' &&
     (form.estuda !== 'sim' || form.escola.trim() !== '')
 
-
-
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
@@ -77,7 +74,6 @@ export default function Page() {
       escola: form.estuda === 'sim' ? form.escola : null,
     })
 
-
     setLoading(false)
 
     if (error) {
@@ -85,7 +81,6 @@ export default function Page() {
       toast.error(error.message ?? 'Erro ao enviar a pré-inscrição')
       return
     }
-
 
     toast.success('Pré-inscrição realizada com sucesso!')
 
@@ -99,34 +94,28 @@ export default function Page() {
       estuda: '',
       escola: '',
     })
-
-
   }
+
   const faqs = [
     {
       pergunta: 'Quando começam os ensaios?',
-      resposta:
-        'Os ensaios começam após o período carnavalesco no dia 21 de fevereiro de 2026.',
+      resposta: 'Os ensaios começam após o período carnavalesco no dia 21 de fevereiro de 2026.',
     },
     {
       pergunta: 'O que eu preciso levar para primeiro ensaio?',
-      resposta:
-        'Precisa levar sua garrafinha de água, ir calçado com tênis e roupa confortável.',
+      resposta: 'Precisa levar sua garrafinha de água, ir calçado com tênis e roupa confortável.',
     },
     {
       pergunta: 'Onde será o local do primeiro ensaio?',
-      resposta:
-        'Na Escola Sagrado Coração de Jesus, no endereço Rua Frei Afonso Maria, 199, Amaro Branco, Olinda - PE, CEP 53120-170',
+      resposta: 'Na Escola Sagrado Coração de Jesus, no endereço Rua Frei Afonso Maria, 199, Amaro Branco, Olinda - PE, CEP 53120-170',
     },
     {
       pergunta: 'Existe pagamento de taxa?',
-      resposta:
-        'Sim. Informações sobre valores e formas de pagamento serão repassadas presencialmente.',
+      resposta: 'Sim. Informações sobre valores e formas de pagamento serão repassadas presencialmente.',
     },
     {
       pergunta: 'Quais são os próximos passos?',
-      resposta:
-        'O responsável será chamado para concluir o cadastro, assinar os termos e entregar a documentação.',
+      resposta: 'O responsável será chamado para concluir o cadastro, assinar os termos e entregar a documentação.',
     },
   ]
 
@@ -148,96 +137,85 @@ export default function Page() {
         </div>
 
         {/* TÍTULO */}
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-3">
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-3 text-black">
           Pré-Inscrição
         </h1>
-        <p className="text-center text-gray-600 mb-10">
+        <p className="text-center text-gray-700 mb-10">
           Quadrilha Junina Coração Mirim - Temporada 2026 <br />
           Crianças e adolescentes até 17 anos
         </p>
 
         {/* FORMULÁRIO */}
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14"
-        >
-          {/* Nome completo */}
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
           <input
             name="nome_completo"
             placeholder="Informe seu nome completo"
             required
             value={form.nome_completo}
             onChange={handleChange}
-            className="md:col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           />
 
-          {/* Email */}
           <input
             type="email"
             name="email"
             placeholder="E-mail do responsável (opcional)"
             value={form.email}
             onChange={handleChange}
-            className="md:col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           />
 
-          {/* Data de nascimento */}
           <input
             type="date"
             name="data_nascimento"
             required
             value={form.data_nascimento}
             onChange={handleChange}
-            className="border rounded-lg px-4 py-3"
+            className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           />
 
-          {/* Gênero */}
           <select
             name="genero"
             required
             value={form.genero}
             onChange={handleChange}
-            className="border rounded-lg px-4 py-3"
+            className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           >
             <option value="">Gênero</option>
             <option value="dama">Dama</option>
             <option value="cavalheiro">Cavalheiro</option>
           </select>
 
-          {/* Nome do responsável */}
           <input
             name="nome_responsavel"
             placeholder="Informe o nome completo do responsável"
             required
             value={form.nome_responsavel}
             onChange={handleChange}
-            className="md:col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           />
 
-          {/* Telefone */}
           <input
             name="telefone"
             placeholder="Informe o telefone do responsável"
             required
             value={form.telefone}
             onChange={handleChange}
-            className="md:col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           />
 
-          {/* Estuda */}
           <select
             name="estuda"
             required
             value={form.estuda}
             onChange={handleChange}
-            className="border rounded-lg px-4 py-3"
+            className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           >
             <option value="">Estuda atualmente?</option>
             <option value="sim">Sim</option>
             <option value="nao">Não</option>
           </select>
 
-          {/* Escola (condicional) */}
           {form.estuda === 'sim' && (
             <input
               name="escola"
@@ -245,51 +223,43 @@ export default function Page() {
               required
               value={form.escola}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-3"
+              className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
             />
           )}
 
-          {/* Botão */}
           <button
             type="submit"
             disabled={loading || !formularioValido}
             className={`md:col-span-2 font-semibold py-4 rounded-lg transition
-      ${loading || !formularioValido
+              ${loading || !formularioValido
                 ? 'bg-gray-400 cursor-not-allowed'
                 : 'bg-red-800 hover:bg-red-700 text-white'
-              }
-    `}
+              }`}
           >
             {loading ? 'Enviando...' : 'Enviar pré-inscrição'}
           </button>
         </form>
 
-
         {/* FAQ */}
         <section>
-          <h2 className="text-2xl font-bold mb-6 text-center">
+          <h2 className="text-2xl font-bold mb-6 text-center text-black">
             Dúvidas frequentes
           </h2>
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="border rounded-lg overflow-hidden"
-              >
+              <div key={index} className="border border-gray-200 rounded-lg overflow-hidden bg-white">
                 <button
                   type="button"
-                  onClick={() =>
-                    setFaqAberto(faqAberto === index ? null : index)
-                  }
-                  className="w-full flex justify-between items-center px-4 py-3 font-semibold"
+                  onClick={() => setFaqAberto(faqAberto === index ? null : index)}
+                  className="w-full flex justify-between items-center px-4 py-3 font-semibold text-black hover:bg-gray-50 transition"
                 >
                   {faq.pergunta}
                   <span>{faqAberto === index ? '−' : '+'}</span>
                 </button>
 
                 {faqAberto === index && (
-                  <div className="px-4 pb-4 text-gray-600">
+                  <div className="px-4 pb-4 text-gray-700 bg-white">
                     {faq.resposta}
                   </div>
                 )}
