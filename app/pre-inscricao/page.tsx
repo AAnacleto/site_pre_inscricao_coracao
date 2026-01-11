@@ -5,7 +5,7 @@ import { ComponentesRepository } from '@/lib/respositories/preInscricao.reposito
 import { toast } from 'sonner'
 
 
-const TEMPORADA_ATUAL_ID = '2026' // Substitua pelo ID real da temporada atual
+const TEMPORADA_ATUAL_ID = 'e6780310-32a1-434e-bd09-49189e8fabab'
 
 function calcularIdade(dataNascimento: string) {
   const hoje = new Date()
@@ -161,25 +161,27 @@ export default function Page() {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14"
         >
+          {/* Nome completo */}
           <input
             name="nome_completo"
             placeholder="Informe seu nome completo"
             required
             value={form.nome_completo}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border rounded-lg px-4 py-3"
           />
 
+          {/* Email */}
           <input
             type="email"
             name="email"
             placeholder="E-mail do responsável (opcional)"
             value={form.email}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border rounded-lg px-4 py-3"
           />
 
-
+          {/* Data de nascimento */}
           <input
             type="date"
             name="data_nascimento"
@@ -189,6 +191,7 @@ export default function Page() {
             className="border rounded-lg px-4 py-3"
           />
 
+          {/* Gênero */}
           <select
             name="genero"
             required
@@ -201,25 +204,27 @@ export default function Page() {
             <option value="cavalheiro">Cavalheiro</option>
           </select>
 
+          {/* Nome do responsável */}
           <input
             name="nome_responsavel"
             placeholder="Informe o nome completo do responsável"
             required
             value={form.nome_responsavel}
             onChange={handleChange}
-            className="col-span-2 border rounded-lg px-4 py-3"
+            className="md:col-span-2 border rounded-lg px-4 py-3"
           />
 
-
+          {/* Telefone */}
           <input
             name="telefone"
             placeholder="Informe o telefone do responsável"
             required
             value={form.telefone}
             onChange={handleChange}
-            className="border rounded-lg px-4 py-3 col-span-2"
+            className="md:col-span-2 border rounded-lg px-4 py-3"
           />
 
+          {/* Estuda */}
           <select
             name="estuda"
             required
@@ -232,6 +237,7 @@ export default function Page() {
             <option value="nao">Não</option>
           </select>
 
+          {/* Escola (condicional) */}
           {form.estuda === 'sim' && (
             <input
               name="escola"
@@ -243,21 +249,21 @@ export default function Page() {
             />
           )}
 
+          {/* Botão */}
           <button
             type="submit"
             disabled={loading || !formularioValido}
-            className={`col-span-2 font-semibold py-4 rounded-lg transition
-             ${loading || !formularioValido
+            className={`md:col-span-2 font-semibold py-4 rounded-lg transition
+      ${loading || !formularioValido
                 ? 'bg-gray-400 cursor-not-allowed'
                 : 'bg-red-800 hover:bg-red-700 text-white'
               }
-            `}
+    `}
           >
             {loading ? 'Enviando...' : 'Enviar pré-inscrição'}
           </button>
-
-
         </form>
+
 
         {/* FAQ */}
         <section>
