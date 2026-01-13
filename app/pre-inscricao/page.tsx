@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { ComponentesRepository } from '@/lib/respositories/preInscricao.repository'
 import { toast } from 'sonner'
+import { Instagram, Youtube, Camera } from 'lucide-react'
+
 
 const TEMPORADA_ATUAL_ID = 'e6780310-32a1-434e-bd09-49189e8fabab'
 
@@ -156,35 +158,75 @@ export default function Page() {
             className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
           />
 
-          <input
+          {/* <input
             type="email"
             name="email"
             placeholder="E-mail do responsável (opcional)"
             value={form.email}
             onChange={handleChange}
             className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          />
+          /> */}
 
-          <input
-            type="date"
-            name="data_nascimento"
-            required
-            value={form.data_nascimento}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          />
+          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          <select
-            name="genero"
-            required
-            value={form.genero}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          >
-            <option value="">Gênero</option>
-            <option value="dama">Dama</option>
-            <option value="cavalheiro">Cavalheiro</option>
-          </select>
+            <div className="relative">
+              <input
+                type="date"
+                name="data_nascimento"
+                required
+                value={form.data_nascimento}
+                onChange={handleChange}
+                className="
+      peer
+      w-full
+      border border-gray-300
+      rounded-lg
+      px-4 py-4
+      bg-white
+      h-[56px]
+      text-black
+      [&::-webkit-datetime-edit]:opacity-0
+      focus:[&::-webkit-datetime-edit]:opacity-100
+      valid:[&::-webkit-datetime-edit]:opacity-100
+    "
+              />
+
+              <label
+                className="
+      absolute
+      left-4
+      top-1/2
+      -translate-y-1/2
+      text-gray-500
+      text-sm
+      transition-all
+      pointer-events-none
+      peer-focus:top-2
+      peer-focus:text-xs
+      peer-focus:text-red-800
+      peer-valid:top-2
+      peer-valid:text-xs
+    "
+              >
+                Data de nascimento
+              </label>
+            </div>
+
+
+            <select
+              name="genero"
+              required
+              value={form.genero}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white h-[56px] appearance-none"
+            >
+              <option value="">Gênero</option>
+              <option value="dama">Dama</option>
+              <option value="cavalheiro">Cavalheiro</option>
+            </select>
+
+          </div>
+
 
           <input
             name="nome_responsavel"
@@ -267,6 +309,59 @@ export default function Page() {
             ))}
           </div>
         </section>
+        <br />
+        <br />
+
+
+        <footer className="w-full bg-gray-100 border-t border-gray-200 mt-10">
+          <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center gap-4">
+
+            {/* Texto convite */}
+            <p className="text-sm text-gray-600 text-center">
+              Acompanhe a <span className="font-semibold">Quadrilha Junina Coração Mirim</span>
+              nas redes sociais e fique por dentro das novidades.
+            </p>
+
+            {/* Ícones das redes */}
+            <div className="flex gap-6">
+              <a
+                href="https://www.instagram.com/qjuninacoracao/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-gray-600 hover:text-pink-600 transition-colors"
+              >
+                <Instagram size={26} />
+              </a>
+
+              <a
+                href="https://www.youtube.com/@QuadrilhaJuninaCoracaoOficial"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="text-gray-600 hover:text-red-600 transition-colors"
+              >
+                <Youtube size={26} />
+              </a>
+
+              <a
+                href="https://www.flickr.com/photos/198833010@N07/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Flickr"
+                className="text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <Camera size={26} />
+              </a>
+            </div>
+
+            {/* Direitos autorais */}
+            <p className="text-xs text-gray-500 text-center">
+              © {new Date().getFullYear()} Tríade Produções. Todos os direitos reservados.
+            </p>
+          </div>
+        </footer>
+
       </div>
     </main>
   )
