@@ -8,7 +8,7 @@ export interface CriarPreInscricaoDTO {
   genero: 'dama' | 'cavalheiro'
   telefone: string
   email?: string | null
-  estuda: string
+  estuda: string | null
   escola?: string | null
 }
 

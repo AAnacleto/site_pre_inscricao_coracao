@@ -25,6 +25,7 @@ function calcularIdade(dataNascimento: string) {
 export default function Page() {
   const [loading, setLoading] = useState(false)
   const [faqAberto, setFaqAberto] = useState<number | null>(null)
+  const [submitted, setSubmitted] = useState(false) // NOVO: controla a tela de confirmação
 
   const [form, setForm] = useState({
     nome_completo: '',
@@ -72,8 +73,7 @@ export default function Page() {
       genero: form.genero as 'dama' | 'cavalheiro',
       telefone: form.telefone,
       email: form.email,
-      estuda: form.estuda,
-      escola: form.estuda === 'sim' ? form.escola : null,
+      estuda: form.estuda === 'sim' ? form.escola : null,
     })
 
     setLoading(false)
@@ -86,6 +86,7 @@ export default function Page() {
 
     toast.success('Pré-inscrição realizada com sucesso!')
 
+    // Limpa o formulário e mostra tela de confirmação
     setForm({
       nome_completo: '',
       nome_responsavel: '',
@@ -96,9 +97,38 @@ export default function Page() {
       estuda: '',
       escola: '',
     })
+
+    setSubmitted(true) // NOVO: mostrar tela de confirmação
+  }
+
+  // NOVO: reiniciar pré-inscrição
+  const handleReset = () => {
+    setForm({
+      nome_completo: '',
+      nome_responsavel: '',
+      data_nascimento: '',
+      genero: '',
+      telefone: '',
+      email: '',
+      estuda: '',
+      escola: '',
+    })
+    setSubmitted(false)
   }
 
   const faqs = [
+    {
+      pergunta: 'Posso me inscrever na Quadrilha Junina Coração se tenho mais de 17 anos?',
+      resposta: 'Não. A quadrilha é exclusiva para crianças e adolescentes de até 17 anos, mas você pode acompanhar e apoiar nossas apresentações!',
+    },
+    {
+      pergunta: 'Qual é a idade mínima para participar?',
+      resposta: 'Podem se inscrever crianças a partir de 6 anos, respeitando a faixa etária de cada núcleo.',
+    },
+    {
+      pergunta: 'Preciso morar no bairro ou comunidade para participar?',
+      resposta: 'Não necessariamente. Aceitamos participantes de diversas regiões, desde que possam comparecer aos ensaios e eventos.',
+    },
     {
       pergunta: 'Quando começam os ensaios?',
       resposta: 'Os ensaios começam após o período carnavalesco no dia 21 de fevereiro de 2026.',
@@ -114,6 +144,10 @@ export default function Page() {
     {
       pergunta: 'Existe pagamento de taxa?',
       resposta: 'Sim. Informações sobre valores e formas de pagamento serão repassadas presencialmente.',
+    },
+    {
+      pergunta: 'Preencher o formulário garante minha vaga na quadrilha?',
+      resposta: 'Não. O formulário é apenas uma pré-inscrição. A inscrição só é confirmada presencialmente, com os pais ou responsáveis assinando os termos.',
     },
     {
       pergunta: 'Quais são os próximos passos?',
@@ -142,146 +176,160 @@ export default function Page() {
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-3 text-black">
           Pré-Inscrição
         </h1>
-        <p className="text-center text-gray-700 mb-10">
-          Quadrilha Junina Coração Mirim - Temporada 2026 <br />
-          Crianças e adolescentes até 17 anos
+        <p className="text-center text-gray-700 max-w-2xl mx-auto leading-relaxed mb-10">
+          Há 20 anos, a Quadrilha Junina Coração Mirim celebra o São João e transforma histórias!
+          As pré-inscrições 2026 estão abertas — prepare-se para arraiás incríveis com a Coração e um São João de 2026 que vai ser inesquecível!
         </p>
 
-        {/* FORMULÁRIO */}
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
-          <input
-            name="nome_completo"
-            placeholder="Informe seu nome completo"
-            required
-            value={form.nome_completo}
-            onChange={handleChange}
-            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          />
+        <div className="bg-yellow-50 border-l-2 border-yellow-400 text-yellow-800 p-3 rounded-md mt-3 text-sm">
+          <strong>Atenção:</strong> Pré-inscrição para crianças e adolescentes de até 17 anos.
+          Preencher <strong>não garante a vaga</strong>. A inscrição só é confirmada presencialmente com os responsáveis.
+        </div>
 
-          {/* <input
-            type="email"
-            name="email"
-            placeholder="E-mail do responsável (opcional)"
-            value={form.email}
-            onChange={handleChange}
-            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          /> */}
+        <br />
 
-          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* NOVO: Mostrar formulário ou tela de confirmação */}
+        {!submitted ? (
+          // FORMULÁRIO
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
+            <input
+              name="nome_completo"
+              placeholder="Informe seu nome completo"
+              required
+              value={form.nome_completo}
+              onChange={handleChange}
+              className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
+            />
 
-            <div className="relative">
-              <input
-                type="date"
-                name="data_nascimento"
+            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <div className="relative">
+                <input
+                  type="date"
+                  name="data_nascimento"
+                  required
+                  value={form.data_nascimento}
+                  onChange={handleChange}
+                  className="
+                    peer
+                    w-full
+                    border border-gray-300
+                    rounded-lg
+                    px-4 py-4
+                    bg-white
+                    h-[56px]
+                    text-black
+                    [&::-webkit-datetime-edit]:opacity-0
+                    focus:[&::-webkit-datetime-edit]:opacity-100
+                    valid:[&::-webkit-datetime-edit]:opacity-100
+                  "
+                />
+                <label
+                  className="
+                    absolute
+                    left-4
+                    top-1/2
+                    -translate-y-1/2
+                    text-gray-500
+                    text-sm
+                    transition-all
+                    pointer-events-none
+                    peer-focus:top-2
+                    peer-focus:text-xs
+                    peer-focus:text-red-800
+                    peer-valid:top-2
+                    peer-valid:text-xs
+                  "
+                >
+                  Data de nascimento
+                </label>
+              </div>
+
+              <select
+                name="genero"
                 required
-                value={form.data_nascimento}
+                value={form.genero}
                 onChange={handleChange}
-                className="
-      peer
-      w-full
-      border border-gray-300
-      rounded-lg
-      px-4 py-4
-      bg-white
-      h-[56px]
-      text-black
-      [&::-webkit-datetime-edit]:opacity-0
-      focus:[&::-webkit-datetime-edit]:opacity-100
-      valid:[&::-webkit-datetime-edit]:opacity-100
-    "
-              />
-
-              <label
-                className="
-      absolute
-      left-4
-      top-1/2
-      -translate-y-1/2
-      text-gray-500
-      text-sm
-      transition-all
-      pointer-events-none
-      peer-focus:top-2
-      peer-focus:text-xs
-      peer-focus:text-red-800
-      peer-valid:top-2
-      peer-valid:text-xs
-    "
+                className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white h-[56px] appearance-none"
               >
-                Data de nascimento
-              </label>
+                <option value="">Gênero</option>
+                <option value="dama">Dama</option>
+                <option value="cavalheiro">Cavalheiro</option>
+              </select>
             </div>
 
+            <input
+              name="nome_responsavel"
+              placeholder="Informe o nome completo do responsável"
+              required
+              value={form.nome_responsavel}
+              onChange={handleChange}
+              className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
+            />
+
+            <input
+              name="telefone"
+              placeholder="Informe o telefone do responsável"
+              required
+              value={form.telefone}
+              onChange={handleChange}
+              className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
+            />
 
             <select
-              name="genero"
+              name="estuda"
               required
-              value={form.genero}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white h-[56px] appearance-none"
-            >
-              <option value="">Gênero</option>
-              <option value="dama">Dama</option>
-              <option value="cavalheiro">Cavalheiro</option>
-            </select>
-
-          </div>
-
-
-          <input
-            name="nome_responsavel"
-            placeholder="Informe o nome completo do responsável"
-            required
-            value={form.nome_responsavel}
-            onChange={handleChange}
-            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          />
-
-          <input
-            name="telefone"
-            placeholder="Informe o telefone do responsável"
-            required
-            value={form.telefone}
-            onChange={handleChange}
-            className="md:col-span-2 border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          />
-
-          <select
-            name="estuda"
-            required
-            value={form.estuda}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-          >
-            <option value="">Estuda atualmente?</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-
-          {form.estuda === 'sim' && (
-            <input
-              name="escola"
-              placeholder="Qual escola?"
-              required
-              value={form.escola}
+              value={form.estuda}
               onChange={handleChange}
               className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
-            />
-          )}
+            >
+              <option value="">Estuda atualmente?</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
 
-          <button
-            type="submit"
-            disabled={loading || !formularioValido}
-            className={`md:col-span-2 font-semibold py-4 rounded-lg transition
-              ${loading || !formularioValido
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-red-800 hover:bg-red-700 text-white'
-              }`}
-          >
-            {loading ? 'Enviando...' : 'Enviar pré-inscrição'}
-          </button>
-        </form>
+            {form.estuda === 'sim' && (
+              <input
+                name="escola"
+                placeholder="Qual escola?"
+                required
+                value={form.escola}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg px-4 py-3 text-black bg-white"
+              />
+            )}
 
+            <button
+              type="submit"
+              disabled={loading || !formularioValido}
+              className={`md:col-span-2 font-semibold py-4 rounded-lg transition
+                ${loading || !formularioValido
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-red-800 hover:bg-red-700 text-white'
+                }`}
+            >
+              {loading ? 'Enviando...' : 'Enviar pré-inscrição'}
+            </button>
+          </form>
+        ) : (
+          // TELA DE CONFIRMAÇÃO
+          <div className="text-center p-6 space-y-4">
+            <div className="text-green-600 text-5xl">✅</div>
+            <h2 className="text-xl font-semibold">Você está pré-inscrito!</h2>
+            <p className="text-gray-700">
+              Aguarde a confirmação presencial nos ensaios com os responsáveis.
+            </p>
+            <button
+              onClick={handleReset}
+              className="mt-4 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
+            >
+              Nova pré-inscrição
+            </button>
+          </div>
+        )}
+
+        <br/>
+        <br/>
         {/* FAQ */}
         <section>
           <h2 className="text-2xl font-bold mb-6 text-center text-black">
@@ -309,17 +357,16 @@ export default function Page() {
             ))}
           </div>
         </section>
-        <br />
-        <br />
 
+        <br />
+        <br />
 
         <footer className="w-full bg-gray-100 border-t border-gray-200 mt-10">
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center gap-4">
 
             {/* Texto convite */}
-            <p className="text-sm text-gray-600 text-center">
-              Acompanhe a <span className="font-semibold">Quadrilha Junina Coração Mirim</span>
-              nas redes sociais e fique por dentro das novidades.
+            <p className="text-base leading-relaxed text-gray-600">
+              Acompanhe a <strong>Quadrilha Junina Coração Mirim</strong> nas redes sociais e fique por dentro das novidades.
             </p>
 
             {/* Ícones das redes */}
@@ -361,7 +408,6 @@ export default function Page() {
             </p>
           </div>
         </footer>
-
       </div>
     </main>
   )
