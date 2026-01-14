@@ -203,6 +203,7 @@ export default function Page() {
 
             <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
 
+
               <div className="relative">
                 <input
                   type="date"
@@ -211,35 +212,38 @@ export default function Page() {
                   value={form.data_nascimento}
                   onChange={handleChange}
                   className="
-                    peer
-                    w-full
-                    border border-gray-300
-                    rounded-lg
-                    px-4 py-4
-                    bg-white
-                    h-[56px]
-                    text-black
-                    [&::-webkit-datetime-edit]:opacity-0
-                    focus:[&::-webkit-datetime-edit]:opacity-100
-                    valid:[&::-webkit-datetime-edit]:opacity-100
-                  "
+      peer
+      w-full
+      border border-gray-300
+      rounded-lg
+      px-4
+      h-[56px]
+      bg-white
+      text-black
+
+      md:[&::-webkit-datetime-edit]:opacity-0
+      md:focus:[&::-webkit-datetime-edit]:opacity-100
+      md:valid:[&::-webkit-datetime-edit]:opacity-100
+    "
                 />
+
                 <label
                   className="
-                    absolute
-                    left-4
-                    top-1/2
-                    -translate-y-1/2
-                    text-gray-500
-                    text-sm
-                    transition-all
-                    pointer-events-none
-                    peer-focus:top-2
-                    peer-focus:text-xs
-                    peer-focus:text-red-800
-                    peer-valid:top-2
-                    peer-valid:text-xs
-                  "
+      absolute
+      left-4
+      top-1/2
+      -translate-y-1/2
+      text-gray-500
+      text-sm
+      transition-all
+      pointer-events-none
+
+      peer-focus:top-2
+      peer-focus:text-xs
+      peer-focus:text-red-800
+      peer-valid:top-2
+      peer-valid:text-xs
+    "
                 >
                   Data de nascimento
                 </label>
@@ -328,8 +332,8 @@ export default function Page() {
           </div>
         )}
 
-        <br/>
-        <br/>
+        <br />
+        <br />
         {/* FAQ */}
         <section>
           <h2 className="text-2xl font-bold mb-6 text-center text-black">
