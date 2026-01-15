@@ -8,14 +8,12 @@ export interface CriarPreInscricaoDTO {
   genero: 'dama' | 'cavalheiro'
   telefone: string
   email?: string | null
-  estuda: string | null
   escola?: string | null
 }
 
-
 export class ComponentesRepository {
   static async criarPreInscricao(dados: CriarPreInscricaoDTO) {
-    return supabase.from('componentes').insert([
+    const { error } = await supabase.from('componentes').insert([
       {
         temporada_id: dados.temporada_id,
         nome_completo: dados.nome_completo,
@@ -24,11 +22,28 @@ export class ComponentesRepository {
         genero: dados.genero,
         telefone: dados.telefone,
         email: dados.email ?? null,
-        escola: dados.estuda === 'sim' ? dados.escola : null,
+        escola: dados.escola ?? null,
         status: 'pre-inscrito',
         observacoes: null,
-
       },
     ])
+
+    // 👇 tratamento de erro
+    if (error) {
+      // duplicidade (constraint UNIQUE)
+      if (error.code === '23505') {
+        return {
+          error: {
+            message:
+              'Já existe uma pré-inscrição com esses dados para esta temporada.',
+          },
+        }
+      }
+
+      // qualquer outro erro
+      return { error }
+    }
+
+    return { error: null }
   }
 }

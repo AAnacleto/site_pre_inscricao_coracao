@@ -55,15 +55,29 @@ export default function Page() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
-    const idade = calcularIdade(form.data_nascimento)
-    if (idade > 17) {
-      toast.error(
-        'A pré-inscrição é permitida apenas para crianças e adolescentes até 17 anos.'
-      )
-      return
-    }
+    const nascimento = new Date(form.data_nascimento)
+  const hoje = new Date()
+
+  // Não permite data no futuro
+  if (nascimento > hoje) {
+    toast.error('A data de nascimento não pode ser no futuro.')
+    return
+  }
+
+  const idade = calcularIdade(form.data_nascimento)
+
+  //Não permite idade fora da faixa permitida
+  if (idade < 6 || idade > 17) {
+    toast.error(
+      'Você está fora da faixa de Idade. A pré-inscrição é permitida apenas para crianças e adolescentes de 6 a 17 anos.'
+    )
+    return
+  }
 
     setLoading(true)
+
+    const escolaFinal =
+    form.estuda === 'sim' ? form.escola : null
 
     const { error } = await ComponentesRepository.criarPreInscricao({
       temporada_id: TEMPORADA_ATUAL_ID,
@@ -73,7 +87,7 @@ export default function Page() {
       genero: form.genero as 'dama' | 'cavalheiro',
       telefone: form.telefone,
       email: form.email,
-      estuda: form.estuda === 'sim' ? form.escola : null,
+      escola: escolaFinal,
     })
 
     setLoading(false)
