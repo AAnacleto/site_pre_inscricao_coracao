@@ -26,7 +26,7 @@ export class ComponentesRepository {
         email: dados.email ?? null,
         escola: dados.estuda === 'sim' ? dados.escola : null,
         status: 'pre-inscrito',
-        observacoes: `Responsável: ${dados.nome_contato_responsavel} | Estuda: ${dados.estuda}`,
+        observacoes: null,
 
       },
     ])
